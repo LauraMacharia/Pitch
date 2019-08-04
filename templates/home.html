@@ -1,0 +1,10 @@
+{% extends "index.html" %}
+{% block %}
+{% for posts in posts %}
+    <h3>{{ posts.author }}</h3>
+    <p>{{ posts.pitch }}</p>
+    <p>posted on {{ posts.date_posted }}</p> 
+{% endfor %}
+{% endblock content %}
+
+  
