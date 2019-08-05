@@ -1,8 +1,9 @@
 {% extends "index.html" %}
-{% block %}
+{% block content %}
 {% for posts in posts %}
-    <h3>{{ posts.author }}</h3>
-    <p>{{ posts.pitch }}</p>
+    <h2>{{ posts.title }}</h2>
+    <p>{{ posts.author }}</p>
+    <p>{{ posts.content }}</p>
     <p>posted on {{ posts.date_posted }}</p> 
 {% endfor %}
 {% endblock content %}
