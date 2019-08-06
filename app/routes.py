@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, flash, redirect
-from pitch import app
-from pitch.forms import RegistrationForm, LoginForm
-from pitch.models import User, Post
+from app import app, db, bcrypt
+from app.forms import RegistrationForm, LoginForm
+from app.models import User, Post
 
 posts = [
     
@@ -28,8 +28,12 @@ def about():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        flash(f'Account created for {form.username.data}!', 'primary')
-        return redirect(url_for('home'))
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit() 
+        flash('Your account has been created you can now log in', 'success')
+        return redirect(url_for('login'))
     return render_template('register.html', titile='Register', form=form)
 
 @app.route("/login", methods=['GET', 'POST'])
